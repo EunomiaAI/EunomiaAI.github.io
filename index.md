@@ -164,6 +164,19 @@ $ eunomia-cli ask "What is our daily revenue last week?"
   </div>
 </section>
 
+<section class="home-section maintainer-section">
+  <div>
+    <div class="section-kicker">Maintainer</div>
+    <h2>Created and maintained by Anuj Kumar Singh.</h2>
+    <p class="section-lede">Eunomia is an open-source project focused on making governed LLM analytics easier to run, inspect, and trust.</p>
+  </div>
+
+  <div class="maintainer-links" aria-label="Maintainer profile links">
+    <a href="https://github.com/anuj81">GitHub</a>
+    <a href="https://www.linkedin.com/in/anujksingh/">LinkedIn</a>
+  </div>
+</section>
+
 <section class="home-footer-note">
   Apache 2.0 licensed. Built as static GitHub Pages documentation with no paid hosting dependency.
 </section>
