@@ -1,17 +1,39 @@
 title: Eunomia
 description: Governance-first NLQ middleware for LLMs on data warehouses
-theme: jekyll-theme-slate
-markdown: kramdown
 
-# Repository
-repository: EunomiaAI/EunomiaAI.github.io
+remote_theme: just-the-docs/just-the-docs@v0.10.1
 
-# Build settings
+# URL
+url: https://eunomiaai.github.io
+
 plugins:
-  - jekyll-feed
+  - jekyll-remote-theme
+  - jekyll-seo-tag
 
-# Navigation (if using a theme with nav support)
-collections:
-  docs:
-    output: true
-    permalink: /:collection/:path/
+# Theme settings
+color_scheme: dark
+
+# Search
+search_enabled: true
+
+# Navigation order for top-level pages
+nav_sort: case_insensitive
+
+# Footer
+footer_content: "Apache 2.0 License. &copy; EunomiaAI."
+
+# Aux links (top right)
+aux_links:
+  "GitHub":
+    - "https://github.com/EunomiaAI"
+aux_links_new_tab: true
+
+# Callouts
+callouts_level: quiet
+callouts:
+  note:
+    title: Note
+    color: blue
+  warning:
+    title: Warning
+    color: yellow

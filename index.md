@@ -1,6 +1,9 @@
 ---
 layout: default
-title: Eunomia
+title: Home
+nav_order: 1
+description: Governance-first NLQ middleware for LLMs on data warehouses
+permalink: /
 ---
 
 # Eunomia

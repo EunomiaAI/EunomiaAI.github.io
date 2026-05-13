@@ -1,6 +1,7 @@
 ---
 layout: default
 title: FAQ & Troubleshooting
+nav_order: 5
 ---
 
 # FAQ & Troubleshooting

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Architecture & Design
+nav_order: 2
 ---
 
 # Architecture & Design
