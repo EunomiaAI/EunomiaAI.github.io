@@ -1,0 +1,17 @@
+title: Eunomia
+description: Governance-first NLQ middleware for LLMs on data warehouses
+theme: jekyll-theme-slate
+markdown: kramdown
+
+# Repository
+repository: EunomiaAI/EunomiaAI.github.io
+
+# Build settings
+plugins:
+  - jekyll-feed
+
+# Navigation (if using a theme with nav support)
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:path/
