@@ -37,3 +37,7 @@ callouts:
   warning:
     title: Warning
     color: yellow
+
+# Mermaid diagrams
+mermaid:
+  version: "10.6.1"

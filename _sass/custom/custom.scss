@@ -1,0 +1,99 @@
+// ─── Content width ────────────────────────────────────────────────────────────
+// just-the-docs defaults to 800px; override to use the full available space.
+.main-content {
+  max-width: 1200px !important;
+}
+
+// ─── Wider code blocks ────────────────────────────────────────────────────────
+pre.highlight, div.highlight {
+  border-radius: 6px;
+  font-size: 0.85em;
+}
+
+// ─── Hero section on homepage ─────────────────────────────────────────────────
+.hero-tagline {
+  font-size: 1.25rem;
+  color: #7b8794;
+  margin-bottom: 2rem;
+}
+
+.arch-section {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+// ─── Principle cards ──────────────────────────────────────────────────────────
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.principle-card {
+  background: #1e2129;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  h4 {
+    margin-top: 0;
+    color: #79b8ff;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+  p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #c9d1d9;
+    line-height: 1.6;
+  }
+}
+
+// ─── Repo cards ───────────────────────────────────────────────────────────────
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.repo-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  text-decoration: none !important;
+  transition: border-color 0.2s ease;
+  display: block;
+
+  &:hover {
+    border-color: #58a6ff;
+  }
+
+  .repo-name {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.9rem;
+    color: #58a6ff;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #8b949e;
+    line-height: 1.5;
+  }
+}
+
+// ─── Mermaid diagrams ─────────────────────────────────────────────────────────
+.mermaid svg {
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+// ─── Section dividers ─────────────────────────────────────────────────────────
+.section-divider {
+  border: none;
+  border-top: 1px solid #30363d;
+  margin: 2.5rem 0;
+}
