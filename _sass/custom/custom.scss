@@ -92,6 +92,17 @@ body {
   background-image: none !important;
 }
 
+.site-title::before {
+  display: inline-block;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-right: 0.55rem;
+  background: url("/assets/images/eunomia-logo-mark.png") center / contain no-repeat;
+  border-radius: 6px;
+  content: "";
+  vertical-align: middle;
+}
+
 .site-nav,
 .site-footer {
   color: #57606a;
@@ -280,6 +291,20 @@ div.highlight {
 .home-hero {
   padding: clamp(2rem, 5vw, 4rem);
   margin: 0 0 1.5rem;
+}
+
+.hero-brand {
+  display: flex;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: center;
+  margin: 0.25rem 0 0.8rem;
+}
+
+.hero-brand img {
+  width: clamp(4.4rem, 9vw, 7rem);
+  height: clamp(3.6rem, 7.4vw, 5.8rem);
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 .home-hero h1 {
@@ -677,6 +702,10 @@ div.highlight {
   .quickstart-preview,
   .maintainer-section {
     display: block;
+  }
+
+  .hero-brand {
+    align-items: flex-start;
   }
 
   .text-link {

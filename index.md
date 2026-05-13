@@ -8,7 +8,10 @@ permalink: /
 
 <section class="home-hero">
   <div class="eyebrow">Open-source governance middleware for LLM analytics</div>
-  <h1>Eunomia</h1>
+  <div class="hero-brand">
+    <img src="{{ '/assets/images/eunomia-logo-mark.png' | relative_url }}" alt="" aria-hidden="true">
+    <h1>Eunomia</h1>
+  </div>
   <p class="hero-tagline">Let LLMs generate SQL, while authorization, validation, masking, and audit stay enforced in code.</p>
 
   <div class="hero-actions">
