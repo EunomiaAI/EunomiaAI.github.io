@@ -6,170 +6,164 @@ description: Governance-first NLQ middleware for LLMs on data warehouses
 permalink: /
 ---
 
-# Eunomia
-{: .fs-9 }
+<section class="home-hero">
+  <div class="eyebrow">Open-source governance middleware for LLM analytics</div>
+  <h1>Eunomia</h1>
+  <p class="hero-tagline">Let LLMs generate SQL, while authorization, validation, masking, and audit stay enforced in code.</p>
 
-Governance-first natural-language query middleware for LLMs on data warehouses.
-{: .fs-5 .fw-300 .hero-tagline }
-
-[Get Started](docs/quickstart.md){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View on GitHub](https://github.com/EunomiaAI){: .btn .fs-5 .mb-4 .mb-md-0 }
-
----
-
-## The Problem
-
-LLM-driven analytics that trust the model with sensitive data is **theater**.
-
-When a system relies on the LLM to "be careful" — to avoid querying tables it shouldn't, to not leak PII, to stay within a user's authorized scope — you have no real security. You have a model that works until it doesn't.
-
-**Eunomia draws the trust boundary in code, not in the prompt.** Every request is validated against hard enforcement layers before a single row is read from the warehouse. The model is a producer, never an authorizer.
-
----
-
-## Architecture: The 8-Layer Pipeline
-
-A single natural-language question passes through eight layers, each independently enforced:
-
-```mermaid
-flowchart LR
-    CLI(["🖥️ Client\neunomia-cli"])
-
-    subgraph MW["  eunomia-middleware  "]
-        direction TB
-        s1["① JWT Validate\nKeycloak JWKS"]
-        s2["② OM Policy\nAllowed Views"]
-        s3["③ RAG Retrieve\nTop-K Views"]
-        s4["④ LLM SQL Gen\nGemini"]
-        s5["⑤ AST Validate\nsqlglot"]
-        s6["⑥ Execute\nMySQL"]
-        s7["⑦ PII Mask\nPer Role"]
-        s8["⑧ Audit +\nSSE Stream"]
-        s1 --> s2 --> s3 --> s4 --> s5 --> s6 --> s7 --> s8
-    end
-
-    CLI -->|"Bearer JWT"| s1
-    s8 -->|"results"| CLI
-
-    s2 <-->|"tag policies"| OM[("📚 OpenMetadata")]
-    s3 <-->|"vector search\n+ allow-list filter"| RAG(["🧠 eunomia-rag\nQdrant"])
-    s6 <-->|"validated SELECT"| DB[("🗄️ MySQL\nWarehouse")]
-```
-
----
-
-## Design Philosophy: The Trust Boundary
-
-Every piece of data the user sees passes through a verifiable enforcement chain:
-
-```mermaid
-flowchart TD
-    U(["👤 User Request\n(Natural Language)"])
-
-    subgraph TB["  Trust Boundary — enforced in code  "]
-        direction LR
-        P1["🔑 Identity\nKeycloak JWT\n+ JWKS signature"]
-        P2["📋 Authorization\nOpenMetadata\ntag policies"]
-        P3["🧠 Retrieval\nQdrant allow-list\nserver-side filter"]
-        P4["✅ Validation\nsqlglot AST\nvs. allowed views"]
-        P5["🎭 Masking\nPII redacted\nper role"]
-        P1 --> P2 --> P3 --> P4 --> P5
-    end
-
-    LLM(["🤖 LLM Output\n(Generated SQL)"])
-
-    U --> P1
-    LLM -->|"enters here,\ncannot skip validation"| P4
-    P5 --> DB[("🗄️ Warehouse")]
-    DB --> AUD["📜 Audit Log"]
-```
-
-The LLM output enters the pipeline at validation — it cannot bypass identity, authorization, or retrieval. An attacker who compromises the model still cannot access unauthorized data.
-
----
-
-## Design Principles
-
-<div class="principle-grid">
-  <div class="principle-card">
-    <h4>🔐 Identity is verified, not trusted</h4>
-    <p>Every request carries a Keycloak JWT validated against the realm's JWKS. No hardcoded role maps. No trust-on-arrival.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary fs-5" href="{{ '/docs/quickstart.html' | relative_url }}">Get Started</a>
+    <a class="btn fs-5" href="https://github.com/EunomiaAI">View GitHub</a>
+    <a class="btn fs-5" href="{{ '/docs/architecture.html' | relative_url }}">Read Architecture</a>
   </div>
-  <div class="principle-card">
-    <h4>📚 Authorization lives in the catalog</h4>
-    <p>OpenMetadata tag policies decide who can see what. The middleware enforces; it never decides. Role maps don't live in code.</p>
-  </div>
-  <div class="principle-card">
-    <h4>🧠 RAG ranks; OM authorizes</h4>
-    <p>Qdrant filters by the user's allow-list as a server-side payload condition. Index drift cannot become an authorization bug.</p>
-  </div>
-  <div class="principle-card">
-    <h4>✅ Validate before execute</h4>
-    <p>sqlglot parses every LLM-generated query and checks each table reference against the full authorized scope. No exceptions.</p>
-  </div>
-  <div class="principle-card">
-    <h4>🎭 PII masking per role</h4>
-    <p>Column-level redaction applied at result time, based on OM tags and JWT role claims. Views can be broad; exposure is narrow.</p>
-  </div>
-  <div class="principle-card">
-    <h4>📜 Audited end-to-end</h4>
-    <p>Every query logged: identity, roles, SQL, allowed views, execution time, rows returned, masked columns. Full trace always available.</p>
-  </div>
-</div>
 
----
+  <div class="oss-cues" aria-label="Project cues">
+    <span>Apache 2.0</span>
+    <span>GitHub Pages</span>
+    <span>Static docs</span>
+    <span>No paid hosting</span>
+  </div>
+</section>
 
-## Four Repos, One Stack
+<section class="home-section">
+  <div class="section-kicker">Why it exists</div>
+  <h2>Prompts are not a security boundary.</h2>
+  <p class="section-lede">Eunomia sits between natural-language analytics and your warehouse so the model can propose a query, but never decide what data a user is allowed to touch.</p>
 
-<div class="repo-grid">
-  <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-middleware">
-    <div class="repo-name">eunomia-middleware</div>
-    <p>FastAPI policy enforcement core — JWT validation, OM policy lookup, LLM orchestration, sqlglot validation, PII masking, audit.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <h3>The risk</h3>
+      <p>LLM analytics can leak sensitive data when the model is trusted to avoid forbidden tables, PII columns, or unauthorized scopes.</p>
+    </div>
+    <div class="why-card">
+      <h3>The boundary</h3>
+      <p>Identity, authorization, retrieval filtering, SQL validation, masking, and audit happen outside the prompt path.</p>
+    </div>
+    <div class="why-card">
+      <h3>The result</h3>
+      <p>The model becomes a producer of candidate SQL. Eunomia remains the policy enforcement layer before rows are read.</p>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works" class="home-section architecture-preview" markdown="1">
+  <div class="section-kicker">How it works</div>
+  <div class="section-heading-row">
+    <div>
+      <h2>One enforced path from question to result.</h2>
+      <p class="section-lede">Every request passes through the same eight-layer pipeline. The LLM output enters at SQL generation, then must survive validation before execution.</p>
+    </div>
+    <a class="text-link" href="{{ '/docs/architecture.html' | relative_url }}">Architecture details</a>
+  </div>
+
+  <a class="architecture-figure" href="#architecture-full" aria-label="Open architecture diagram full size">
+    <img src="{{ '/assets/images/eunomia-architecture.svg' | relative_url }}" alt="Eunomia governed natural-language query pipeline">
+    <span>Click to expand</span>
   </a>
-  <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-rag">
-    <div class="repo-name">eunomia-rag</div>
-    <p>Catalog-aware retrieval service. Qdrant + sentence-transformers (MiniLM-L6-v2). Server-side allow-list filtering. Cron-driven index refresh.</p>
-  </a>
-  <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-cli">
-    <div class="repo-name">eunomia-cli</div>
-    <p>Typer CLI client. OAuth 2.0 device-code login, token caching (mode 0600), auto-refresh, SSE streaming with live progress output.</p>
-  </a>
-  <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-infrastructure">
-    <div class="repo-name">eunomia-infrastructure</div>
-    <p>Docker-compose stack: Keycloak, OpenMetadata, MySQL, Elasticsearch, Qdrant. Seeded realm + 30-case end-to-end verification harness.</p>
-  </a>
-</div>
 
----
+  <div id="architecture-full" class="diagram-lightbox" aria-label="Expanded architecture diagram">
+    <a class="diagram-lightbox-backdrop" href="#how-it-works" aria-label="Close expanded diagram"></a>
+    <div class="diagram-lightbox-panel">
+      <a class="diagram-lightbox-close" href="#how-it-works" aria-label="Close expanded diagram">Close</a>
+      <img src="{{ '/assets/images/eunomia-architecture.svg' | relative_url }}" alt="Eunomia governed natural-language query pipeline expanded">
+    </div>
+  </div>
+</section>
 
-## Quick Example
+<section class="home-section">
+  <div class="section-kicker">Core guarantees</div>
+  <h2>Governance controls stay explicit and testable.</h2>
 
-```bash
-$ eunomia-cli login
-  Logged in as finance.alice
-  roles: [eunomia-finance-user]
+  <div class="principle-grid">
+    <div class="principle-card">
+      <h3>Verified identity</h3>
+      <p>Every request carries a Keycloak JWT validated against JWKS before policy lookup or query generation begins.</p>
+    </div>
+    <div class="principle-card">
+      <h3>Catalog authorization</h3>
+      <p>OpenMetadata tag policies define allowed views. The middleware enforces those policies without hardcoded role maps.</p>
+    </div>
+    <div class="principle-card">
+      <h3>Allow-list retrieval</h3>
+      <p>Qdrant retrieval is filtered by the user's allowed view set, so relevance ranking cannot widen access.</p>
+    </div>
+    <div class="principle-card">
+      <h3>SQL AST validation</h3>
+      <p>sqlglot parses model-generated SQL and checks referenced tables against the authorized scope before execution.</p>
+    </div>
+    <div class="principle-card">
+      <h3>Role-aware masking</h3>
+      <p>PII redaction happens at result time based on catalog tags and JWT roles, keeping broad views narrowly exposed.</p>
+    </div>
+    <div class="principle-card">
+      <h3>Audit trail</h3>
+      <p>Identity, roles, SQL, allowed views, execution time, returned rows, and masked columns are logged for traceability.</p>
+    </div>
+  </div>
+</section>
+
+<section class="home-section">
+  <div class="section-kicker">Project modules</div>
+  <h2>Four repositories, one local stack.</h2>
+
+  <div class="repo-grid">
+    <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-middleware">
+      <div class="repo-topline">
+        <span class="repo-name">eunomia-middleware</span>
+        <span class="repo-role">Policy core</span>
+      </div>
+      <p>FastAPI enforcement layer for JWT validation, OpenMetadata policy lookup, LLM orchestration, SQL validation, PII masking, and audit.</p>
+    </a>
+    <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-rag">
+      <div class="repo-topline">
+        <span class="repo-name">eunomia-rag</span>
+        <span class="repo-role">Retrieval</span>
+      </div>
+      <p>Catalog-aware retrieval service backed by Qdrant and sentence-transformers, with server-side allow-list filtering.</p>
+    </a>
+    <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-cli">
+      <div class="repo-topline">
+        <span class="repo-name">eunomia-cli</span>
+        <span class="repo-role">Developer UX</span>
+      </div>
+      <p>Typer CLI for device-code login, local token caching, automatic refresh, and streamed query progress.</p>
+    </a>
+    <a class="repo-card" href="https://github.com/EunomiaAI/eunomia-infrastructure">
+      <div class="repo-topline">
+        <span class="repo-name">eunomia-infrastructure</span>
+        <span class="repo-role">Local stack</span>
+      </div>
+      <p>Docker Compose environment for Keycloak, OpenMetadata, MySQL, Elasticsearch, Qdrant, seeded data, and verification cases.</p>
+    </a>
+  </div>
+</section>
+
+<section class="home-section quickstart-preview">
+  <div class="quickstart-copy">
+    <div class="section-kicker">Quickstart preview</div>
+    <h2>Try the happy path locally.</h2>
+    <p class="section-lede">Bring up the infrastructure stack, start the services, log in as a seeded user, and ask a governed analytics question.</p>
+    <a class="btn btn-primary fs-5" href="{{ '/docs/quickstart.html' | relative_url }}">Open Getting Started</a>
+  </div>
+
+  <div class="terminal-window" aria-label="Eunomia CLI example">
+    <div class="terminal-bar">
+      <span></span><span></span><span></span>
+    </div>
+    <pre><code>$ eunomia-cli login
+Logged in as finance.alice
+roles: [eunomia-finance-user]
 
 $ eunomia-cli ask "What is our daily revenue last week?"
+> Validating JWT...              ok
+> Fetching authorized views...   ok  2 views
+> RAG retrieval...               ok  finance_daily_revenue_view
+> Validating AST...              ok  all tables authorized
+> Executing query...             ok  7 rows / 45ms
+> Applying PII masking...        ok  0 columns masked</code></pre>
+  </div>
+</section>
 
-  > Validating JWT...              ✓
-  > Fetching authorized views...   ✓  2 views
-  > RAG retrieval...               ✓  finance_daily_revenue_view (0.87)
-  > Generating SQL...              ✓
-  > Validating AST...              ✓  all tables authorized
-  > Executing query...             ✓  7 rows / 45ms
-  > Applying PII masking...        ✓  0 columns masked
-
-  ┌────────────┬───────────────┐
-  │ order_date │ total_revenue │
-  ├────────────┼───────────────┤
-  │ 2026-05-07 │     45000.00  │
-  │ 2026-05-08 │     52000.00  │
-  │     ...    │       ...     │
-  └────────────┴───────────────┘
-```
-
----
-
-## License
-
-Apache 2.0 — [view source on GitHub](https://github.com/EunomiaAI)
+<section class="home-footer-note">
+  Apache 2.0 licensed. Built as static GitHub Pages documentation with no paid hosting dependency.
+</section>

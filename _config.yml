@@ -11,7 +11,7 @@ plugins:
   - jekyll-seo-tag
 
 # Theme settings
-color_scheme: dark
+color_scheme: light
 
 # Search
 search_enabled: true

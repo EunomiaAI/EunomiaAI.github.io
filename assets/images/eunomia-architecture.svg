@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="title desc">
+  <title id="title">Eunomia governed natural-language query pipeline</title>
+  <desc id="desc">A governance-first architecture showing a client request passing through Eunomia middleware layers before reaching a data warehouse, with OpenMetadata and Qdrant integrations.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fbff"/>
+      <stop offset="52%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f4fbf7"/>
+    </linearGradient>
+    <linearGradient id="trust" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ddf4ff"/>
+      <stop offset="100%" stop-color="#dafbe1"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-25%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#1f2328" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#57606a"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#0969da"/>
+    </marker>
+    <style>
+      .label { font: 700 26px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #24292f; }
+      .small { font: 500 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #57606a; }
+      .mono { font: 700 17px ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace; fill: #1a7f37; letter-spacing: 0.04em; }
+      .step-title { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #24292f; }
+      .step-sub { font: 500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #57606a; }
+      .badge { font: 700 14px ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace; fill: #0969da; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="720" rx="36" fill="url(#bg)"/>
+  <circle cx="210" cy="100" r="170" fill="#ddf4ff" opacity="0.55"/>
+  <circle cx="1370" cy="600" r="210" fill="#dafbe1" opacity="0.55"/>
+
+  <text x="80" y="88" class="mono">GOVERNED NLQ PIPELINE</text>
+  <text x="80" y="132" class="label">LLMs generate SQL. Eunomia enforces access.</text>
+  <text x="80" y="166" class="small">Identity, policy, retrieval, validation, masking, and audit remain outside the prompt.</text>
+
+  <rect x="58" y="218" width="1484" height="286" rx="28" fill="url(#trust)" stroke="#bfdbfe" stroke-width="2"/>
+  <text x="90" y="260" class="badge">TRUST BOUNDARY - ENFORCED IN CODE</text>
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="322" width="180" height="108" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="114" y="363" class="step-title">Client</text>
+    <text x="114" y="392" class="step-sub">eunomia-cli</text>
+    <text x="114" y="416" class="step-sub">Bearer JWT</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="318" y="304" width="138" height="144" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="342" y="336" class="badge">01</text>
+    <text x="342" y="370" class="step-title">JWT</text>
+    <text x="342" y="398" class="step-title">Validate</text>
+    <text x="342" y="426" class="step-sub">Keycloak JWKS</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="496" y="304" width="138" height="144" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="520" y="336" class="badge">02</text>
+    <text x="520" y="370" class="step-title">OM</text>
+    <text x="520" y="398" class="step-title">Policy</text>
+    <text x="520" y="426" class="step-sub">Allowed views</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="674" y="304" width="138" height="144" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="698" y="336" class="badge">03</text>
+    <text x="698" y="370" class="step-title">RAG</text>
+    <text x="698" y="398" class="step-title">Retrieve</text>
+    <text x="698" y="426" class="step-sub">Top-K views</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="852" y="304" width="138" height="144" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="876" y="336" class="badge">04</text>
+    <text x="876" y="370" class="step-title">LLM</text>
+    <text x="876" y="398" class="step-title">SQL Gen</text>
+    <text x="876" y="426" class="step-sub">Gemini</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1030" y="304" width="138" height="144" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="1054" y="336" class="badge">05</text>
+    <text x="1054" y="370" class="step-title">AST</text>
+    <text x="1054" y="398" class="step-title">Validate</text>
+    <text x="1054" y="426" class="step-sub">sqlglot</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1208" y="304" width="138" height="144" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="1232" y="336" class="badge">06</text>
+    <text x="1232" y="370" class="step-title">Execute</text>
+    <text x="1232" y="398" class="step-title">Query</text>
+    <text x="1232" y="426" class="step-sub">MySQL SELECT</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1030" y="540" width="138" height="112" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="1054" y="574" class="badge">07</text>
+    <text x="1054" y="608" class="step-title">PII Mask</text>
+    <text x="1054" y="636" class="step-sub">Per role</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1208" y="540" width="138" height="112" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="1232" y="574" class="badge">08</text>
+    <text x="1232" y="608" class="step-title">Audit</text>
+    <text x="1232" y="636" class="step-sub">SSE stream</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="392" y="548" width="200" height="84" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="424" y="584" class="step-title">OpenMetadata</text>
+    <text x="424" y="612" class="step-sub">Tag policies</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="650" y="548" width="200" height="84" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="682" y="584" class="step-title">Qdrant</text>
+    <text x="682" y="612" class="step-sub">Allow-list search</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1386" y="322" width="126" height="108" rx="18" fill="#ffffff" stroke="#d0d7de"/>
+    <text x="1414" y="363" class="step-title">Result</text>
+    <text x="1414" y="392" class="step-sub">Rows</text>
+    <text x="1414" y="416" class="step-sub">+ progress</text>
+  </g>
+
+  <path d="M262 376 H304" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M456 376 H482" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M634 376 H660" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M812 376 H838" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M990 376 H1016" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M1168 376 H1194" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M1346 376 H1372" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M1277 448 V518" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M1168 596 H1194" stroke="#57606a" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+
+  <path d="M565 448 C565 500 512 506 492 548" stroke="#0969da" stroke-width="3" fill="none" marker-end="url(#arrow-blue)"/>
+  <path d="M492 548 C512 506 565 500 565 448" stroke="#0969da" stroke-width="3" fill="none" opacity="0.25"/>
+  <path d="M743 448 C743 500 750 506 750 548" stroke="#0969da" stroke-width="3" fill="none" marker-end="url(#arrow-blue)"/>
+
+  <text x="478" y="520" class="small">tag policies</text>
+  <text x="728" y="520" class="small">filtered retrieval</text>
+  <text x="1212" y="280" class="small">validated SELECT only</text>
+  <text x="1364" y="468" class="small">masked + audited response</text>
+</svg>
